@@ -13,15 +13,19 @@ class Director:
     def __eq__(self, other: 'Director') -> bool:
         if not isinstance(other, Director):
             return False
-        return self.__director_full_name == other.__director_full_name
+        return self.__director_full_name == other.director_full_name
 
     def __lt__(self, other: 'Director') -> bool:
         if not isinstance(other, Director):
             return False
-        return self.__director_full_name < other.__director_full_name
+        return self.__director_full_name < other.director_full_name
 
     def __hash__(self) -> int:
         return hash(self.__director_full_name)
+
+    @property
+    def director_full_name(self) -> str:
+        return self.__director_full_name
 
 class Genre:
     def __init__(self, a_name: str):

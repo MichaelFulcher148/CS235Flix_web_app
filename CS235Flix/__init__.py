@@ -8,21 +8,26 @@ def create_app():
 
     @app.route('/')
     def index():
+        return render_template('home.html')
+
+    @app.route('/browse_by_title')
+    def hello():
         movie_list = file_reader.dataset_of_movies
         movie_list.sort()
         return render_template('list_movies.html', movie_list=movie_list)
 
-    @app.route('/hello')
+    @app.route('/browse_by_genre')
+    def hello():
+        genre_list = file_reader.dataset_of_genres
+        genre_list.sort()
+        return render_template('')
+
+    @app.route('/browse_by_director')
     def hello():
         return 'Hello, World!'
 
-    @app.route('/post/<int:post_id>')
-    def show_post(post_id):
-        # Show the post with the given id, the id is an integer
-        return 'Post %d' % post_id
-
-    @app.route('/news', methods=['GET'])
-    def shows_news():
-        return "Today’s news is ..."
+    @app.route('/browse_by_actor')
+    def hello():
+        return 'Hello, World!'
 
     return app

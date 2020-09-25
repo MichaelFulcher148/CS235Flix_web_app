@@ -1,6 +1,7 @@
 body
 {
-font-family: sans-serif
+	width: 800px;
+	font-family: sans-serif
 }
 
 h1, h2
@@ -11,9 +12,37 @@ h1, h2
 	text-transform: uppercase
 }
 
-.footer
+#footer
 {
-border-top-width: medium;
-boder-top-style: solid;
-font-size: small;
+	border-top-width: medium;
+	padding-top: 30px;
+	boder-top-style: solid;
+	font-size: small;
+}
+
+.nav_item{
+	display: block;
+}
+
+#content{
+	horiz-align: center;
+}
+
+#wrapper{
+	display: table;
+	width: 800px;
+}
+
+#row{
+	display: table-row;
+}
+
+#navigation_bar{
+	display: table-cell;
+	width: 150px;
+}
+
+#main{
+	display: table-cell;
+	width: available;
 }
