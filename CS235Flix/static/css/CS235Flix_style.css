@@ -1,0 +1,19 @@
+body
+{
+font-family: sans-serif
+}
+
+h1, h2
+{
+	text-align: center;
+	background-color: darkred;
+	color: yellow;
+	text-transform: uppercase
+}
+
+.footer
+{
+border-top-width: medium;
+boder-top-style: solid;
+font-size: small;
+}
