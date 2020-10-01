@@ -1,0 +1,25 @@
+{% extends 'layout.html' %} {% block content %}
+<main id="main">
+    <h2>Browse by Director</h2>
+    <table>
+        <tr>
+            <td width=50%>
+                <ul>{% for genre in genre_list %}
+                    <li><a href="browse_by_director?director={{ genre.director_full_name }}">{{ genre.director_full_name }}</a></li>
+                {% endfor %}</ul>
+            </td>
+            <td width=50% valign="top" align="center">
+                {% if movie_list %}
+                <ul>
+                    {% for movie in movie_list %}
+                    <li>{{ movie.title }}, {{ movie.release_year }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                Select a director
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</main>
+{% endblock %}
