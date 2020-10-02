@@ -1,8 +1,8 @@
 <nav id="navigation_bar">
+    <a class="nav_item" href="{{ url_for('home_bp.index') }}">Home</a>
     Browse Movies By:
-    <a class="nav_item" href="">Title</a>
-    <!-- <a class="btn-nav" href=" url_for('news_bp.articles_by_date') "> -->
-    <a class="nav_item" href="">Artist</a>
-    <a class="nav_item" href="/browse_by_director">Director</a>
-    <a class="nav_item" href="">Genre</a>
+    <a class="nav_item" href="{{ url_for('browse_bp.browse_by_title') }}">Title</a>
+    <a class="nav_item" href="{{ url_for('browse_bp.browse_by_actor') }}">Artist</a>
+    <a class="nav_item" href="{{ url_for('browse_bp.browse_by_director') }}">Director</a>
+    <a class="nav_item" href="{{ url_for('browse_bp.browse_by_genre') }}">Genre</a>
 </nav>
