@@ -1,25 +1,12 @@
 from flask import Flask
-from file_reader.file_reader import MovieFileCSVReader
 import CS235Flix.memory_repository.abtractrepository as repo
-from CS235Flix.memory_repository.memory_repository import MemoryRepository
+from CS235Flix.memory_repository.memory_repository import MemoryRepository, populate
 
 def create_app():
     app = Flask(__name__)
-
-    file_reader = MovieFileCSVReader('Data1000Movies.csv')
-    file_reader.read_csv_file()
-
+    app.config.from_object('config.Config')
     repo.repository_instance = MemoryRepository()
-    for movie in file_reader.dataset_of_movies:
-        repo.repository_instance.add_movie(movie)
-    for director in file_reader.dataset_of_directors:
-        repo.repository_instance.add_director(director)
-    for actor in file_reader.dataset_of_actors:
-        repo.repository_instance.add_actor(actor)
-    for genre in file_reader.dataset_of_genres:
-        repo.repository_instance.add_genre(genre)
-    repo.repository_instance.tidy_up()
-    del file_reader
+    populate('CS235Flix\\memory_repository\\Data1000Movies.csv', repo.repository_instance)
 
     with app.app_context():
         from .home import home

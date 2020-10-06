@@ -1,4 +1,5 @@
 from .abtractrepository import AbstractRepository
+from file_reader.file_reader import MovieFileCSVReader
 
 class MemoryRepository(AbstractRepository):
     def __init__(self) -> None:
@@ -6,18 +7,22 @@ class MemoryRepository(AbstractRepository):
         self.__genres = list()
         self.__actors = list()
         self.__directors = list()
+        self.__release_years = list()
 
-    def get_genres(self):
+    def get_genres(self) -> list:
         return self.__genres
 
-    def get_movies(self):
+    def get_movies(self) -> list:
         return self.__movies
 
-    def get_actors(self):
+    def get_actors(self) -> list:
         return self.__actors
 
-    def get_directors(self):
+    def get_directors(self) -> list:
         return self.__directors
+
+    def get_release_years(self) -> list:
+        return self.__release_years
 
     def add_movie(self, a_movie: 'Movie'):
         self.__movies.append(a_movie)
@@ -31,8 +36,32 @@ class MemoryRepository(AbstractRepository):
     def add_director(self, a_director: 'Director'):
         self.__directors.append(a_director)
 
+    def add_release_year(self, a_year: int):
+        self.__release_years.append(a_year)
+
     def tidy_up(self):
         self.__movies.sort()
         self.__directors.sort()
         self.__actors.sort()
         self.__genres.sort()
+        self.__release_years.sort()
+
+def populate(data_loc: str, repo: 'MemoryRepository'):
+    file_reader = MovieFileCSVReader(data_loc)
+    file_reader.read_csv_file()
+
+    for movie in file_reader.dataset_of_movies:
+        repo.add_movie(movie)
+    for director in file_reader.dataset_of_directors:
+        repo.add_director(director)
+    for actor in file_reader.dataset_of_actors:
+        repo.add_actor(actor)
+    for genre in file_reader.dataset_of_genres:
+        repo.add_genre(genre)
+    date_list = list()
+    for movie in repo.get_movies():
+        if movie.release_year not in date_list:
+            date_list.append(movie.release_year)
+    for release_date in date_list:
+        repo.add_release_year(release_date)
+    repo.tidy_up()

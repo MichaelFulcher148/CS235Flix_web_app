@@ -1,6 +1,6 @@
 {% extends 'layout.html' %} {% block content %}
-<h2>Movie List</h2>
 <main id="main">
+    <h2>Movie List</h2>
     <ul>{% for movie in movie_list %}
         <li>{{ movie.title }}, {{ movie.release_year }}</li>
     {% endfor %}</ul>

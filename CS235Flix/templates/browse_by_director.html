@@ -5,14 +5,14 @@
         <tr>
             <td width=50%>
                 <ul>{% for genre in genre_list %}
-                    <li><a href="browse_by_director?director={{ genre.director_full_name }}">{{ genre.director_full_name }}</a></li>
+                    <li><a href="{{ url_for('browse_bp.browse_by_director') }}?director={{ genre.director_full_name }}">{{ genre.director_full_name }}</a></li>
                 {% endfor %}</ul>
             </td>
             <td width=50% valign="top" align="center">
                 {% if movie_list %}
                 <ul>
                     {% for movie in movie_list %}
-                    <li>{{ movie.title }}, {{ movie.release_year }}</li>
+                        <li><a href="{{ url_for('browse_bp.view_movie_info') }}?movie_name={{ movie.title }}&date={{ movie.release_year }}">{{ movie.title }}, {{ movie.release_year }}</a></li>
                     {% endfor %}
                 </ul>
                 {% else %}
