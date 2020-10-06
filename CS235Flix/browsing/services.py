@@ -4,6 +4,13 @@ from obj.movie import Director, Actor, Genre, Movie
 def get_movies_by_date(repo: 'AbstractRepository'):
     pass
 
+def get_first_letters_by_directors(repo: 'AbstractRepository'):
+    first_initial_list = list()
+    for director in repo.get_directors():
+        if director.director_full_name[0] not in first_initial_list:
+            first_initial_list.append(director.director_full_name[0])
+    return first_initial_list
+
 def get_movies_by_director(director_name: str, repo: 'AbstractRepository') -> list:
     a_director = Director(director_name)
     movie_list = list()
@@ -31,8 +38,12 @@ def get_movies_by_genre(genre_name: str, repo: 'AbstractRepository'):
 def get_movies_by_title(repo: 'AbstractRepository') -> list:
     return repo.get_movies()
 
-def get_directors(repo: 'AbstractRepository') -> list:
-    return repo.get_directors()
+def get_directors(search_letter, repo: 'AbstractRepository') -> list:
+    director_list = list()
+    for director in repo.get_directors():
+        if director.director_full_name[0] == search_letter:
+            director_list.append(director)
+    return director_list
 
 def get_actors(repo: 'AbstractRepository'):
     return repo.get_actors()
