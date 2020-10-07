@@ -4,30 +4,39 @@ import CS235Flix.memory_repository.abtractrepository as repo
 
 browse_blueprint = Blueprint('browse_bp', __name__)
 
-def setup_arrows(blueprint_str: str, letter_pick: str, letter_list: list):
+def setup_arrows(blueprint_str: str, letter_pick: str, letter_list: list, extra_q_var=None):
     if letter_pick == letter_list[0]:
         left = Markup('<font> << </font>')
     else:
-        left = Markup(f"<a href=\"{url_for(blueprint_str)}?letter={letter_list[letter_list.index(letter_pick) - 1]}\"> << </a>")
+        left = Markup(f"<a href=\"{url_for(blueprint_str)}?{'' if extra_q_var is None else extra_q_var + '&'}letter={letter_list[letter_list.index(letter_pick) - 1]}\"> << </a>")
     if letter_pick == letter_list[-1]:
         right = Markup('<font> >> </font>')
     else:
-        right = Markup(f"<a href=\"{url_for(blueprint_str)}?letter={letter_list[letter_list.index(letter_pick) + 1]}\"> >> </a>")
+        right = Markup(f"<a href=\"{url_for(blueprint_str)}?{'' if extra_q_var is None else extra_q_var + '&'}letter={letter_list[letter_list.index(letter_pick) + 1]}\"> >> </a>")
     return left, right
 
 @browse_blueprint.route('/browse_by_title')
 def browse_by_title():
     first_letter_pick = request.args.get('letter')
-    first_letters = services.get_first_letters_of_movies(repo.repository_instance)
+    first_letters = services.get_first_letters_of_add_movies(repo.repository_instance)
     if first_letter_pick is None:
         first_letter_pick = first_letters[0]
     left_link, right_link = setup_arrows('browse_bp.browse_by_title', first_letter_pick, first_letters)
-    return render_template('list_movies.html', l_link=left_link, r_link=right_link, initials=first_letters, movie_list=services.get_movies_by_title(first_letter_pick, repo.repository_instance))
+    return render_template('list_movies.html', left_arrow=left_link, right_arrow=right_link, initials=first_letters, first_initial=first_letter_pick, movie_list=services.get_movies_by_title(first_letter_pick, repo.repository_instance))
 
 @browse_blueprint.route('/browse_by_genre')
 def browse_by_genre():
-    # genre_list = file_reader.dataset_of_genres
-    return render_template('')
+    genre_list = repo.repository_instance.get_genres()
+    genre_pick = request.args.get('genre')
+    first_letter = request.args.get('letter')
+    if genre_pick is None:
+        return render_template('browse_by_genre.html', genre_list=genre_list)
+    else:
+        if services.get_pop_of_genre(genre_pick, repo.repository_instance) > 20:
+            first_letters, movie_list, first_letter = services.setup_browse_by_genre(first_letter, genre_pick, repo.repository_instance)
+            left_link, right_link = setup_arrows('browse_bp.browse_by_genre', first_letter, first_letters, "genre=" + genre_pick)
+            return render_template('browse_by_genre.html', genre=genre_pick, genre_list=genre_list, left_arrow=left_link, right_arrow=right_link, initials=first_letters, movie_list=movie_list)
+        return render_template('browse_by_genre.html', genre=genre_pick, genre_list=genre_list, movie_list=services.get_movies_by_genre(genre_pick, repo.repository_instance))
 
 @browse_blueprint.route('/browse_by_director')
 def browse_by_director():
@@ -40,9 +49,9 @@ def browse_by_director():
         first_initial_pick = first_initials[0]
     left_link, right_link = setup_arrows('browse_bp.browse_by_director', first_initial_pick, first_initials)
     if director_pick is None:
-        return render_template('browse_by_director.html', l_link=left_link, r_link=right_link, initials=first_initials, director_list=services.get_directors(first_initial_pick, repo.repository_instance))
+        return render_template('browse_by_director.html', left_arrow=left_link, right_arrow=right_link, initials=first_initials, first_initial=first_initial_pick, director_list=services.get_directors(first_initial_pick, repo.repository_instance))
     else:
-        return render_template('browse_by_director.html', l_link=left_link, r_link=right_link, initials=first_initials, director_list=services.get_directors(first_initial_pick, repo.repository_instance), movie_list=services.get_movies_by_director(director_pick, repo.repository_instance))
+        return render_template('browse_by_director.html', left_arrow=left_link, right_arrow=right_link, initials=first_initials, first_initial=first_initial_pick, director_list=services.get_directors(first_initial_pick, repo.repository_instance), movie_list=services.get_movies_by_director(director_pick, repo.repository_instance), director_name=director_pick)
 
 @browse_blueprint.route('/browse_by_actor')
 def browse_by_actor():
@@ -55,9 +64,9 @@ def browse_by_actor():
         first_initial_pick = first_initials[0]
     left_link, right_link = setup_arrows('browse_bp.browse_by_actor', first_initial_pick, first_initials)
     if actor_pick is None:
-        return render_template('browse_by_actor.html', l_link=left_link, r_link=right_link, initials=first_initials, actor_list=services.get_actors(first_initial_pick, repo.repository_instance))
+        return render_template('browse_by_actor.html', left_arrow=left_link, right_arrow=right_link, initials=first_initials, first_initial=first_initial_pick, actor_list=services.get_actors(first_initial_pick, repo.repository_instance))
     else:
-        return render_template('browse_by_actor.html', l_link=left_link, r_link=right_link, initials=first_initials, actor_list=services.get_actors(first_initial_pick, repo.repository_instance), movie_list=services.get_movies_by_actor(actor_pick, repo.repository_instance))
+        return render_template('browse_by_actor.html', left_arrow=left_link, right_arrow=right_link, initials=first_initials, first_initial=first_initial_pick, actor_list=services.get_actors(first_initial_pick, repo.repository_instance), movie_list=services.get_movies_by_actor(actor_pick, repo.repository_instance), actor_name=actor_pick)
 
 @browse_blueprint.route('/movie_info')
 def view_movie_info():

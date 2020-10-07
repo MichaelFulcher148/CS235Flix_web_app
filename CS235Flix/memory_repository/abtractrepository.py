@@ -20,11 +20,15 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def add_movie(self):
+    def add_movie(self) -> None:
         raise NotImplementedError
 
     @abc.abstractmethod
     def add_genre(self):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_size_of_genre(self) -> int:
         raise NotImplementedError
 
     @abc.abstractmethod
