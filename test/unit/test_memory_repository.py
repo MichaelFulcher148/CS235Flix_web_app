@@ -21,3 +21,5 @@ def test_repository_can_get_directors(a_memory_repo):
     a_director_list = a_memory_repo.get_directors()
     a_director = Director("Ridley Scott")
     assert a_director in a_director_list
+
+# test_get_number_per_genre

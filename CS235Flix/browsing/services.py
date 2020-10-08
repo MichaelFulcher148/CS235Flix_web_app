@@ -116,6 +116,6 @@ def get_movie_info(movie_name: str, date: int, repo: 'AbstractRepository') -> di
                 'release_year': selected_movie.release_year,
                 'description': selected_movie.description,
                 'director': selected_movie.director.director_full_name,
-                'actors': selected_movie.actors,
-                'genres': selected_movie.genres,
+                'actors': [i.actor_full_name for i in selected_movie.actors],
+                'genres': [i.genre_name for i in selected_movie.genres],
                 'runtime': selected_movie.runtime_minutes}

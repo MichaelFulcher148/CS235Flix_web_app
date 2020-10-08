@@ -7,19 +7,19 @@
             <th>
                 Actors:
             </th>
-            <th>{% if actor_name %}Movies By {{ actor_name }}:{% else %}Select an Actor{% endif %}
+            <th>{% if actor_name %}Movies Starring {{ actor_name }}:{% else %}Select an Actor{% endif %}
             </th>
         </tr>
         <tr>
             <td width=50%>
-                <ul>{% for actor in actor_list %}
-                    <li><a href="{{ url_for('browse_bp.browse_by_actor') }}?actor={{ actor.actor_full_name }}">{{ actor.actor_full_name }}</a></li>
+                <ul>{% for actor_name in actor_list %}
+                    <li><a href="{{ url_for('browse_bp.browse_by_actor') }}?actor={{ actor_name }}">{{ actor_name }}</a></li>
                 {% endfor %}</ul>
             </td>
             <td width=50% valign="top">
                 {% if movie_list %}
-                <table width="100%" border="0" >{% for movie in movie_list %}
-                        <tr><td align="center"><a href="{{ url_for('browse_bp.view_movie_info') }}?movie_name={{ movie.title }}&date={{ movie.release_year }}">{{ movie.title }}, {{ movie.release_year }}</a></td></tr>
+                <table width="100%" border="0" >{% for key in movie_list %}
+                        <tr><td align="center"><a href="{{ url_for('browse_bp.view_movie_info') }}?movie_name={{ key }}&date={{ movie_list[key] }}">{{ key }}, {{ movie_list[key] }}</a></td></tr>
                 {% endfor %}</table>
                 {% endif %}
             </td>
