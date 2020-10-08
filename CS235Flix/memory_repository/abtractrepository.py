@@ -42,3 +42,11 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def tidy_up(self):
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_user(self):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def find_user(self):
+        raise NotImplementedError

@@ -1,7 +1,6 @@
 import pytest
-
 import CS235Flix.browsing.services
-from obj.movie import Director, Genre, Actor
+import CS235Flix.authentication.services
 
 def test_browse_by_get_movie_info(a_memory_repo):
     movie_info = CS235Flix.browsing.services.get_movie_info("Split", 2016, a_memory_repo)
@@ -9,9 +8,26 @@ def test_browse_by_get_movie_info(a_memory_repo):
                 'release_year': 2016,
                 'description': "Three girls are kidnapped by a man with a diagnosed 23 distinct personalities. They must try to escape before the apparent emergence of a frightful new 24th.",
                 'director': "M. Night Shyamalan",
-                'actors': [Actor("James McAvoy"), Actor("Anya Taylor-Joy"), Actor("Haley Lu Richardson"), Actor("Jessica Sula")],
-                'genres': [Genre("Horror"), Genre("Thriller")],
+                'actors': ["James McAvoy", "Anya Taylor-Joy", "Haley Lu Richardson", "Jessica Sula"],
+                'genres': ["Horror", "Thriller"],
                 'runtime': 117}
 
 def test_browse_by_get_non_existant_movie_info(a_memory_repo):
-    assert CS235Flix.browsing.services.get_movie_info("Nope", 2016, a_memory_repo) == None
+    assert CS235Flix.browsing.services.get_movie_info("Nope", 2016, a_memory_repo) is None
+
+def test_add_user(a_memory_repo):
+    CS235Flix.authentication.services.add_user('Billy', 'showmeThem0ney!', a_memory_repo)
+    user_dict = CS235Flix.authentication.services.get_user('billy', a_memory_repo)
+    assert user_dict['username'] == 'billy'
+
+def test_authenticate_user(a_memory_repo):
+    CS235Flix.authentication.services.add_user('Billy', 'showmeThem0ney!', a_memory_repo)
+    assert CS235Flix.authentication.services.authenticate_credentials('billy', 'showmeThem0ney!', a_memory_repo) is True
+
+def test_authenticate_non_existant_user(a_memory_repo):
+    CS235Flix.authentication.services.add_user('Billy', 'showmeThem0ney!', a_memory_repo)
+    assert CS235Flix.authentication.services.authenticate_credentials('john', 'showmeThem0ney!', a_memory_repo) is False
+
+def test_authenticate_user_with_bad_password(a_memory_repo):
+    CS235Flix.authentication.services.add_user('Billy', 'showmeThem0ney!', a_memory_repo)
+    assert CS235Flix.authentication.services.authenticate_credentials('billy', 'showmetheMoney!', a_memory_repo) is False

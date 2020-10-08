@@ -15,4 +15,7 @@ def create_app():
         from .browsing import browse_by
         app.register_blueprint(browse_by.browse_blueprint)
 
+        from .authentication import authentication
+        app.register_blueprint(authentication.authentication_blueprint)
+
     return app
