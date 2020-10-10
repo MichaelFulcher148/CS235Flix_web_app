@@ -20,4 +20,7 @@ def create_app():
 
         from .reviews import reviews
         app.register_blueprint(reviews.reviews_blueprint)
+
+        from .search import search
+        app.register_blueprint(search.search_blueprint)
     return app

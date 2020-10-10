@@ -50,3 +50,11 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def find_user(self):
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_review(self):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_reviews(self):
+        raise NotImplementedError

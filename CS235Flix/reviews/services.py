@@ -19,3 +19,10 @@ def get_reviews(title: str, date: int, repo: 'AbstractRepository'):
             reviews_data.append(a_review)
         reviews_data.reverse()
         return reviews_data
+
+def check_movie_exists(title: str, date: int, repo: 'AbstractRepository') -> bool:
+    a_movie = Movie(title, date)
+    for movie in repo.get_movies():
+        if movie == a_movie:
+            return True
+    return False

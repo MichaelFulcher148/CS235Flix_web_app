@@ -1,6 +1,6 @@
 import pytest
-
-from obj.movie import Movie, Genre, Actor, Director
+from datetime import datetime
+from obj.movie import Movie, Genre, Actor, Director, Review
 
 def test_repository_can_get_genres(a_memory_repo):
     a_genre_list = a_memory_repo.get_genres()
@@ -32,3 +32,13 @@ def test_get_number_per_genre(a_memory_repo, a_file_reader):
                 data_from_test[item.genre_name] = 1
     for key, val in data_from_test.items():
         assert val == a_memory_repo.get_size_of_genre(Genre(key))
+
+def test_add_review(a_memory_repo):
+    time_now = datetime.today()
+    a_movie = Movie('Rise of the Planet of the Apes', 2011)
+    a_memory_repo.add_review(Review(a_movie, 'Just incredible', 7))
+    test = a_memory_repo.get_reviews(Movie('Rise of the Planet of the Apes', 2011))
+    assert test[0].movie == a_movie
+    assert test[0].review_text == 'Just incredible'
+    assert test[0].rating == 7
+    assert test[0].timestamp == time_now

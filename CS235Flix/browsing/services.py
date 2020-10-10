@@ -119,3 +119,15 @@ def get_movie_info(movie_name: str, date: int, repo: 'AbstractRepository') -> di
                 'actors': [i.actor_full_name for i in selected_movie.actors],
                 'genres': [i.genre_name for i in selected_movie.genres],
                 'runtime': selected_movie.runtime_minutes}
+
+def make_dict_from_movie_list(movie_list: list) -> dict:
+    movie_dict = dict()
+    for movie in movie_list:
+        movie_dict[movie.title] = movie.release_year
+    return movie_dict
+
+def make_director_name_list(directors_list: list) -> list:
+    return [i.director_full_name for i in directors_list]
+
+def make_actor_name_list(actor_list: list) -> list:
+    return [i.actor_full_name for i in actor_list]
