@@ -15,6 +15,17 @@ def test_browse_by_get_movie_info(a_memory_repo):
 def test_browse_by_get_non_existant_movie_info(a_memory_repo):
     assert CS235Flix.browsing.services.get_movie_info("Nope", 2016, a_memory_repo) is None
 
+def test_get_number_per_genre(a_memory_repo, a_file_reader):
+    data_from_test = dict()
+    for movie in a_file_reader.dataset_of_movies:
+        for item in movie.genres:
+            if item.genre_name in data_from_test:
+                data_from_test[item.genre_name] += 1
+            else:
+                data_from_test[item.genre_name] = 1
+    for key, val in data_from_test.items():
+        assert val == CS235Flix.browsing.services.get_pop_of_genre(key, a_memory_repo)
+
 def test_add_user(a_memory_repo):
     CS235Flix.authentication.services.add_user('Billy', 'showmeThem0ney!', a_memory_repo)
     user_dict = CS235Flix.authentication.services.get_user('billy', a_memory_repo)

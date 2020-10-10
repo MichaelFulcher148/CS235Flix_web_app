@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, ValidationError
 from password_validator import PasswordValidator
+from functools import wraps
 
 import CS235Flix.memory_repository.abtractrepository as repo
 import CS235Flix.authentication.services as services
@@ -68,3 +69,11 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('home_bp.index'))
+
+def login_required(view):
+    @wraps(view)
+    def wrapped_view(**kwargs):
+        if 'username' not in session:
+            return redirect(url_for('home_bp.login_options'))
+        return view(**kwargs)
+    return wrapped_view

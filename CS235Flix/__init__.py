@@ -18,4 +18,6 @@ def create_app():
         from .authentication import authentication
         app.register_blueprint(authentication.authentication_blueprint)
 
+        from .reviews import reviews
+        app.register_blueprint(reviews.reviews_blueprint)
     return app

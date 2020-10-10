@@ -10,6 +10,7 @@ class MemoryRepository(AbstractRepository):
         self.__release_years = list()
         self.__genre_pop = dict()
         self.__users = list()
+        self.__reviews = list()
 
     def get_genres(self) -> list:
         return self.__genres
@@ -61,11 +62,25 @@ class MemoryRepository(AbstractRepository):
     def add_user(self, a_user: 'User') -> None:
         self.__users.append(a_user)
 
-    def find_user(self, username: str):
+    def find_user(self, username: str) -> 'User' or None:
         for user in self.__users:
             if user.username == username:
                 return user
         return None
+
+    def add_review(self, a_review: 'Review') -> None:
+        self.__reviews.append(a_review)
+        print(self.__reviews)
+
+    def get_reviews(self, a_movie: 'Movie') -> list:
+        match_list = list()
+        for i in self.__reviews:
+            if i.movie == a_movie:
+                match_list.append(i)
+        if len(match_list) > 0:
+            return match_list
+        else:
+            return None
 
 def populate(data_loc: str, repo: 'MemoryRepository') -> None:
     file_reader = MovieFileCSVReader(data_loc)

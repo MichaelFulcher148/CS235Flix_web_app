@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, Markup
 import CS235Flix.browsing.services as services
 import CS235Flix.memory_repository.abtractrepository as repo
+from CS235Flix.reviews.services import get_reviews
 
 browse_blueprint = Blueprint('browse_bp', __name__)
 
@@ -69,9 +70,9 @@ def browse_by_director():
                                director_list=make_director_name_list(services.get_directors(first_initial_pick, repo.repository_instance)))
     else:
         return render_template('browse_by_director.html', left_arrow=left_link, right_arrow=right_link,
-                               initials=first_initials, first_initial=first_initial_pick,
+                               initials=first_initials, first_initial=first_initial_pick, director_name=director_pick,
                                director_list=make_director_name_list(services.get_directors(first_initial_pick, repo.repository_instance)),
-                               movie_list=make_dict_from_movie_list(services.get_movies_by_director(director_pick, repo.repository_instance)), director_name=director_pick)
+                               movie_list=make_dict_from_movie_list(services.get_movies_by_director(director_pick, repo.repository_instance)))
 
 @browse_blueprint.route('/browse_by_actor')
 def browse_by_actor():
@@ -105,4 +106,5 @@ def view_movie_info():
         if data is None:
             return render_template('view_movie.html')
         else:
-            return render_template('view_movie.html', movie_data=data)
+            return render_template('view_movie.html', movie_data=data,
+                                   reviews=get_reviews(movie_name, movie_date, repo.repository_instance))

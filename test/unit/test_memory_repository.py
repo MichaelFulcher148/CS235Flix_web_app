@@ -22,4 +22,13 @@ def test_repository_can_get_directors(a_memory_repo):
     a_director = Director("Ridley Scott")
     assert a_director in a_director_list
 
-# test_get_number_per_genre
+def test_get_number_per_genre(a_memory_repo, a_file_reader):
+    data_from_test = dict()
+    for movie in a_file_reader.dataset_of_movies:
+        for item in movie.genres:
+            if item.genre_name in data_from_test:
+                data_from_test[item.genre_name] += 1
+            else:
+                data_from_test[item.genre_name] = 1
+    for key, val in data_from_test.items():
+        assert val == a_memory_repo.get_size_of_genre(Genre(key))

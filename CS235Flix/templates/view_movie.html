@@ -13,7 +13,17 @@
             </td></tr>
         <tr><td colspan="2">Description:</td></tr>
         <tr><td colspan="2">{{ movie_data['description'] }}</td></tr>
-    </table>
+    </table><br>
+        <a href='{{ url_for('review_bp.add_review') }}?title={{ movie_data['title'] }}&date={{ movie_data['release_year'] }}'>Write Review</a>
+        {% if reviews %}
+            <br><br>
+            <table width=100% border="1">
+                <tr><th>Rating</th><th width=65%>Comment</th><th>Time submitted</th></tr>
+            {% for review in reviews %}
+                <tr><td align="center">{{ review['rating'] }}</td><td>{{ review['text'] }}</td><td>{{ review['date'] }}</td></tr>
+            {% endfor %}
+            </table>
+        {% endif %}
     {% else %}
         Movie not found
     {% endif %}
