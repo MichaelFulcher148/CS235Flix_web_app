@@ -24,10 +24,3 @@ def get_reviews(title: str, date: int, repo: 'AbstractRepository'):
         return reviews_data
     else:
         return None
-
-def check_movie_exists(title: str, date: int, repo: 'AbstractRepository') -> bool:
-    a_movie = Movie(title, date)
-    for movie in repo.get_movies():
-        if movie == a_movie:
-            return True
-    return False

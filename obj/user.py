@@ -1,4 +1,5 @@
 from obj.movie import Movie, Review
+from obj.watchlist import WatchList
 
 class User:
     def __init__(self, name: str, password: str) -> None:
@@ -7,6 +8,7 @@ class User:
         self.__watched_movies = list()
         self.__reviews = list()
         self.__time_spent_watching_movies_minutes = int()
+        self.__watch_list = WatchList()
 
     def __repr__(self) -> str:
         return f'<User {self.__username}>'
@@ -52,3 +54,7 @@ class User:
             self.__reviews.append(review)
         else:
             raise TypeError
+
+    @property
+    def watchlist(self) -> WatchList:
+        return self.__watch_list

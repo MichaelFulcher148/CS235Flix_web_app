@@ -111,3 +111,13 @@ def test_view_movie_data(client, a_file_reader):
     for actor in a_movie.actors:
         assert actor.actor_full_name.encode() in response.data
     assert a_movie.description[0:20].encode() in response.data
+
+def test_add_to_watchlist(client, user_credential):
+    user_credential.login()
+    client.get('/add_to_watchlist?title=Popstar:%20Never%20Stop%20Never%20Stopping&date=2016')
+    response = client.get('/view_watchlist')
+    assert b'Popstar: Never Stop Never Stopping' in response.data
+
+def test_access_watchlist_without_login(client):
+    response = client.get('/view_watchlist')
+    assert response.headers['Location'] == 'http://localhost/login_required'

@@ -30,4 +30,7 @@ def create_app(test_config=None):
 
         from .search import search
         app.register_blueprint(search.search_blueprint)
+
+        from .user_profile import watchlist
+        app.register_blueprint(watchlist.watchlist_blueprint)
     return app

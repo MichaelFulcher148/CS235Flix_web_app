@@ -14,6 +14,7 @@
         <tr><td colspan="2">Description:</td></tr>
         <tr><td colspan="2">{{ movie_data['description'] }}</td></tr>
     </table><br>
+        <a href="{{ url_for('watchlist_bp.add_movie_to_watchlist') }}?title={{ movie_data['title'] }}&date={{ movie_data['release_year'] }}">Add to Watchlist</a><br>
         <a href='{{ url_for('review_bp.add_review') }}?title={{ movie_data['title'] }}&date={{ movie_data['release_year'] }}'>Write Review</a>
         {% if reviews %}
             <br><br>

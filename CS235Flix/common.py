@@ -1,5 +1,5 @@
 from CS235Flix.memory_repository.abtractrepository import AbstractRepository
-from obj.movie import Genre
+from obj.movie import Genre, Movie
 
 def search_for_user(username: str, repo: AbstractRepository):
     a_user = None
@@ -22,3 +22,10 @@ def get_movies_by_genre(genre_name: str, repo: 'AbstractRepository') -> list:
         if a_genre in movie.genres:
             movie_list.append(movie)
     return movie_list
+
+def check_movie_exists(title: str, date: int, repo: 'AbstractRepository') -> bool:
+    a_movie = Movie(title, date)
+    for movie in repo.get_movies():
+        if movie == a_movie:
+            return True
+    return False
