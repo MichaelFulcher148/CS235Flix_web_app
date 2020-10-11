@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, SelectField
 
@@ -21,5 +21,5 @@ def search_movies():
     if request.method == 'POST':
         movie_list = services.search_movies(form.search_string.data.lower(), form.genre_radio_buttons.data, form.title_checkbox.data,
                                             form.actor_checkbox.data, form.director_checkbox.data, repo.repository_instance)
-        return render_template('movie_search.html', form=form, movies=movie_list)
-    return render_template('movie_search.html', form=form)
+        return render_template('movie_search.html', handler_url=url_for('search_bp.search_movies'), form=form, movies=movie_list)
+    return render_template('movie_search.html', handler_url=url_for('search_bp.search_movies'), form=form)

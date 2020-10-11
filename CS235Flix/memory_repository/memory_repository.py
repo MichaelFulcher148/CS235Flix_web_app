@@ -1,5 +1,6 @@
 from .abtractrepository import AbstractRepository
-from file_reader.file_reader import MovieFileCSVReader
+from file_reader.file_reader import MovieFileCSVReader, UserFileReader
+from os.path import join as path_join
 
 class MemoryRepository(AbstractRepository):
     def __init__(self) -> None:
@@ -83,7 +84,7 @@ class MemoryRepository(AbstractRepository):
             return None
 
 def populate(data_loc: str, repo: 'MemoryRepository') -> None:
-    file_reader = MovieFileCSVReader(data_loc)
+    file_reader = MovieFileCSVReader(path_join(data_loc, 'Data1000Movies.csv'))
     file_reader.read_csv_file()
 
     for genre in file_reader.dataset_of_genres:
@@ -100,4 +101,9 @@ def populate(data_loc: str, repo: 'MemoryRepository') -> None:
             date_list.append(movie.release_year)
     for release_date in date_list:
         repo.add_release_year(release_date)
+
+    file_reader = UserFileReader(path_join(data_loc, 'user_data.csv'))
+    file_reader.read_csv_file()
+    for user in file_reader.data_set_of_users():
+        repo.add_user(user)
     repo.tidy_up()

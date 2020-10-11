@@ -28,4 +28,5 @@ def add_review():
             return redirect(f"{url_for('browse_bp.view_movie_info')}?movie_name={movie_name}&date={release_date}")
     else:
         return render_template('write_review.html', movie_found=False)
-    return render_template('write_review.html', movie_found=True, form=form, title=movie_name, release_year=release_date_int)
+    return render_template('write_review.html', handler_url=url_for('review_bp.add_review'), movie_found=True,
+                           form=form, title=movie_name, release_year=release_date_int)

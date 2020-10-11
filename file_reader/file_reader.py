@@ -1,5 +1,6 @@
 import csv
 from obj.movie import Movie, Actor, Director, Genre
+from obj.user import User
 
 class MovieFileCSVReader:
     def __init__(self, file_name: str) -> None:
@@ -85,3 +86,24 @@ class MovieFileCSVReader:
                 for i in new_movie.actors:
                     self.add_actor(i)
                 self.add_director(new_movie.director)
+
+class UserFileReader:
+    def __init__(self, file_name: str) -> None:
+        self.__filename = file_name
+        self.__data_set_of_users = list()
+
+    def add_user(self, a_user: 'User') -> None:
+        if isinstance(a_user, User):
+            self.__data_set_of_users.append(a_user)
+        else:
+            raise TypeError
+
+    def data_set_of_users(self) -> list:
+        return self.__data_set_of_users
+
+    def read_csv_file(self) -> None:
+        with open(self.__filename, encoding='utf-8-sig') as file_data:
+            reader = csv.DictReader(file_data)
+            for row in reader:
+                new_user = User(row['username'], row['password_hash'])
+                self.add_user(new_user)

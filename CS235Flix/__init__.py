@@ -1,12 +1,19 @@
 from flask import Flask
+from os.path import join as path_join
 import CS235Flix.memory_repository.abtractrepository as repo
 from CS235Flix.memory_repository.memory_repository import MemoryRepository, populate
 
-def create_app():
+def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_object('config.Config')
+    if test_config is None:
+        data_path = path_join('CS235Flix', 'memory_repository')
+    else:
+        app.config.from_mapping(test_config)
+        data_path = app.config['TEST_DATA_PATH']
+
     repo.repository_instance = MemoryRepository()
-    populate('CS235Flix\\memory_repository\\Data1000Movies.csv', repo.repository_instance)
+    populate(data_path, repo.repository_instance)
 
     with app.app_context():
         from .home import home

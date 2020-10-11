@@ -22,7 +22,7 @@ def test_repository_can_get_directors(a_memory_repo):
     a_director = Director("Ridley Scott")
     assert a_director in a_director_list
 
-def test_get_number_per_genre(a_memory_repo, a_file_reader):
+def test_repository_get_number_per_genre(a_memory_repo, a_file_reader):
     data_from_test = dict()
     for movie in a_file_reader.dataset_of_movies:
         for item in movie.genres:
@@ -33,7 +33,7 @@ def test_get_number_per_genre(a_memory_repo, a_file_reader):
     for key, val in data_from_test.items():
         assert val == a_memory_repo.get_size_of_genre(Genre(key))
 
-def test_add_review(a_memory_repo):
+def test_repository_add_review(a_memory_repo):
     time_now = datetime.today()
     a_movie = Movie('Rise of the Planet of the Apes', 2011)
     a_memory_repo.add_review(Review(a_movie, 'Just incredible', 7))
