@@ -63,6 +63,9 @@ class MemoryRepository(AbstractRepository):
     def add_user(self, a_user: 'User') -> None:
         self.__users.append(a_user)
 
+    def get_users(self) -> list:
+        return self.__users
+
     def find_user(self, username: str) -> 'User' or None:
         for user in self.__users:
             if user.username == username:
@@ -72,16 +75,6 @@ class MemoryRepository(AbstractRepository):
     def add_review(self, a_review: 'Review') -> None:
         self.__reviews.append(a_review)
         print(self.__reviews)
-
-    def get_reviews(self, a_movie: 'Movie') -> list:
-        match_list = list()
-        for i in self.__reviews:
-            if i.movie == a_movie:
-                match_list.append(i)
-        if len(match_list) > 0:
-            return match_list
-        else:
-            return None
 
 def populate(data_loc: str, repo: 'MemoryRepository') -> None:
     file_reader = MovieFileCSVReader(path_join(data_loc, 'Data1000Movies.csv'))

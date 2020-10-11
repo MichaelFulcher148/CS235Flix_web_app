@@ -18,9 +18,9 @@
         {% if reviews %}
             <br><br>
             <table width=100% border="1">
-                <tr><th>Rating</th><th width=65%>Comment</th><th>Time submitted</th></tr>
+                <tr><th>Rating</th><th width=65%>Comment</th><th>Time submitted</th><th>Author</th></tr>
             {% for review in reviews %}
-                <tr><td align="center">{{ review['rating'] }}</td><td>{{ review['text'] }}</td><td>{{ review['date'] }}</td></tr>
+                <tr><td align="center">{{ review['rating'] }}</td><td>{{ review['text'] }}</td><td>{{ review['date'] }}</td><td>{{ review['author'] }}</td></tr>
             {% endfor %}
             </table>
         {% endif %}

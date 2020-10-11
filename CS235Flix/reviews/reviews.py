@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField
 from wtforms.fields.html5 import IntegerRangeField
@@ -21,12 +21,14 @@ def add_review():
     form = ReviewForm()
     movie_name = request.args.get('title')
     release_date = request.args.get('date')
+    print(release_date)
     release_date_int = int(release_date)
     if services.check_movie_exists(movie_name, release_date_int, repo.repository_instance):
         if form.validate_on_submit():
-            services.add_review(movie_name, release_date_int, form.content.data, form.rating.data, repo.repository_instance)
+            username = session['username']
+            services.add_review(username, movie_name, release_date_int, form.content.data, form.rating.data, repo.repository_instance)
             return redirect(f"{url_for('browse_bp.view_movie_info')}?movie_name={movie_name}&date={release_date}")
     else:
         return render_template('write_review.html', movie_found=False)
-    return render_template('write_review.html', handler_url=url_for('review_bp.add_review'), movie_found=True,
+    return render_template('write_review.html', handler_url=f"{url_for('review_bp.add_review')}?title={movie_name}&date={release_date}", movie_found=True,
                            form=form, title=movie_name, release_year=release_date_int)

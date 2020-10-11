@@ -57,6 +57,7 @@ def test_post_a_review(client, user_credential):
                       'rating': 9})
     response = client.get('/movie_info?movie_name=Conan%20the%20Barbarian&date=2011')
     assert b'Awesome experience.' in response.data
+    assert b'mistamime' in response.data
 
 def test_browse_movie_by_title(client):
     response = client.get('/browse_by_title')

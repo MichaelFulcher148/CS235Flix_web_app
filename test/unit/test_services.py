@@ -47,7 +47,8 @@ def test_authenticate_user_with_bad_password(a_memory_repo):
 
 def test_add_review(a_memory_repo):
     datetime_now = datetime.today()
-    CS235Flix.reviews.services.add_review('GOOSEBUMPS', 2015, 'very exciting', 9, a_memory_repo)
+    CS235Flix.reviews.services.add_review('mistamime', 'GOOSEBUMPS', 2015, 'very exciting', 9, a_memory_repo)
     assert CS235Flix.reviews.services.get_reviews('GOOSEBUMPS', 2015, a_memory_repo) == [{'text': 'very exciting',
                                                                                          'rating': 9,
-                                                                                         'date': datetime_now.strftime('%d-%m-%Y %H:%M:%S')}]
+                                                                                         'date': datetime_now.strftime('%d-%m-%Y %H:%M:%S'),
+                                                                                          'author': 'mistamime'}]
