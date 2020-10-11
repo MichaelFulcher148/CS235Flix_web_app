@@ -1,5 +1,5 @@
 from CS235Flix.memory_repository.abtractrepository import AbstractRepository
-from ..browsing.services import make_dict_from_movie_list, get_movies_by_genre
+from CS235Flix.common import make_dict_from_movie_list, get_movies_by_genre
 
 def search_movies(search_string: str, genre_name: str, title_bool: bool, actor_bool: bool, director_bool: bool, repo: 'AbstractRepository') -> list or None:
     if genre_name != '':

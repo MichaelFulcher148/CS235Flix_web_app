@@ -1,3 +1,4 @@
+from CS235Flix.common import get_movies_by_genre
 from CS235Flix.memory_repository.abtractrepository import AbstractRepository
 from obj.movie import Director, Actor, Genre, Movie
 
@@ -59,14 +60,6 @@ def get_movies_by_actor(actor_name: str, repo: 'AbstractRepository') -> list:
             movie_list.append(movie)
     return movie_list
 
-def get_movies_by_genre(genre_name: str, repo: 'AbstractRepository') -> list:
-    a_genre = Genre(genre_name)
-    movie_list = list()
-    for movie in repo.get_movies():
-        if a_genre in movie.genres:
-            movie_list.append(movie)
-    return movie_list
-
 def filter_movies_by_title(search_letter: str, a_movie_list: list) -> list:
     movie_list = list()
     for movie in a_movie_list:
@@ -119,12 +112,6 @@ def get_movie_info(movie_name: str, date: int, repo: 'AbstractRepository') -> di
                 'actors': [i.actor_full_name for i in selected_movie.actors],
                 'genres': [i.genre_name for i in selected_movie.genres],
                 'runtime': selected_movie.runtime_minutes}
-
-def make_dict_from_movie_list(movie_list: list) -> dict:
-    movie_dict = dict()
-    for movie in movie_list:
-        movie_dict[movie.title] = movie.release_year
-    return movie_dict
 
 def make_director_name_list(directors_list: list) -> list:
     return [i.director_full_name for i in directors_list]
